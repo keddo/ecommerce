@@ -25,7 +25,7 @@ const setCookies = (res, accesssToken, refreshToken) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
-    maxAge: 7 * 24 * 60 * 60 * 100
+    maxAge: 7 * 24 * 60 * 60 * 1000
    })
 }
 
@@ -110,5 +110,9 @@ export const refreshToken = async (req, res) => {
 }
 
 export const getProfile = async (req, res) => {
-
+  try{
+    res.json(req.user);
+  }catch(error) {
+    res.status(500).json({message: "Server error", error: error.message})
+  }
 }
